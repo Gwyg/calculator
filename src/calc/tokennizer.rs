@@ -52,6 +52,7 @@ impl<'a> Iterator for Tokenizer<'a> {
             Some('/') => Some(Token::Div),
             Some('(') => Some(Token::LParen),
             Some(')') => Some(Token::RParen),
+            Some('^') => Some(Token::Pow),
             None => {
                 self.reached_end = true;
                 self.unexpected_char = next_chr;

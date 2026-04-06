@@ -44,12 +44,22 @@ impl<'a> Parser<'a> {
 
     fn parse_binary_expression(&mut self, left: Node) -> CalcResult<Node> {
         match self.current_token {
-            Token::Add | Token::Sub => {
+            Token::Add => {
                 self.next_token()?;
                 let right = self.parse_expression(Precedence::AddSub)?;
                 Ok(Node::Add(Box::new(left), Box::new(right)))
             }
-            Token::Mul | Token::Div => {
+            Token::Sub => {
+                self.next_token()?;
+                let right = self.parse_expression(Precedence::AddSub)?;
+                Ok(Node::Sub(Box::new(left), Box::new(right)))
+            }
+            Token::Div => {
+                self.next_token()?;
+                let right = self.parse_expression(Precedence::MulDiv)?;
+                Ok(Node::Div(Box::new(left), Box::new(right)))
+            }
+            Token::Mul => {
                 self.next_token()?;
                 let right = self.parse_expression(Precedence::MulDiv)?;
                 Ok(Node::Mul(Box::new(left), Box::new(right)))
